@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 export default class Managers extends Component {
   constructor() {
@@ -11,7 +10,7 @@ export default class Managers extends Component {
     return (
       <ul>
         {managers.map(manager => {
-          return <li>{manager.name}</li>;
+          return <li key={manager.name}>{manager.name}</li>;
         })}
       </ul>
     );
