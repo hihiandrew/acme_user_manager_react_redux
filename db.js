@@ -15,7 +15,7 @@ User.belongsTo(User, { as: 'manager' });
 User.hasMany(User, { as: 'manages', foreignKey: 'managerId' });
 
 const seed = async () => {
-  const userSeed = ['moe', 'larry', 'curly'];
+  const userSeed = ['moe', 'larry', 'curly', 'shep'];
   // const [moe, larry, curly] = await Promise.all(
   //   userSeed.map(name => {
   //     User.create({ name });
@@ -27,7 +27,7 @@ const seed = async () => {
     userSeed.map(name => {
       return User.create({ name });
     })
-  ).then(([moe, larry, curly]) => {
+  ).then(([moe, larry, curly, shep]) => {
     moe.setManager(larry);
     curly.setManager(curly);
     console.log(`users seeded`);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
-import { HashRouter as Router, Link, Route } from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 import Managers from './Managers';
 import Users from './Users';
 import store from '../store';
@@ -11,7 +11,7 @@ export default class App extends Component {
     super();
     this.state = store.getState();
     this.handleDelete = this.handleDelete.bind(this);
-    this.handleFindManager = this.handleFindManager.bind(this);
+    this.findManager = this.findManager.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +37,7 @@ export default class App extends Component {
       .catch(e => console.log(e));
   }
 
-  handleFindManager(user) {
+  findManager(user) {
     return this.state.managers.find(manager => manager.id === user.managerId)
       .name;
   }
@@ -62,7 +62,7 @@ export default class App extends Component {
                 <Users
                   users={this.state.users}
                   handleDelete={this.handleDelete}
-                  handleFindManager={this.handleFindManager}
+                  findManager={this.findManager}
                 />
               );
             }}
