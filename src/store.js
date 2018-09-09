@@ -12,6 +12,8 @@ const reducer = (state = initialState, action) => {
       return handleLoadUser(action);
     case 'del_user':
       return handleDelUser(action, state);
+    case 'add_user':
+      return handleAddUser(action, state);
     default:
       return state;
   }
@@ -59,6 +61,19 @@ const handleDelUser = (action, state) => {
     let newManagers = state.managers.filter(manager => manager != action.user);
     return { users: newUsers, managers: newManagers };
   }
+};
+
+const handleAddUser = (action, state) => {
+  const newUsers = [...state.users, action.user];
+
+  if (action.user.managerId) {
+    let newManagers = [...state.managers].push(
+      state.users.find(user => user.id === action.user.managerId)
+    );
+    newManagers = [...new Set(newManagers)];
+    return { users: newUsers, managers: newMangers };
+  }
+  return { users: newUsers, managers: state.managers };
 };
 
 const store = createStore(reducer, applyMiddleware(loggerMiddleware));

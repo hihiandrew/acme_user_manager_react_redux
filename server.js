@@ -15,6 +15,14 @@ app.get('/api/users', (req, res, next) => {
   });
 });
 
+app.post('/users/create', (req, res, next) => {
+  User.create(req.body)
+    .then(user => {
+      res.send(user);
+    })
+    .catch(next);
+});
+
 app.delete('/api/users/:id', (req, res, next) => {
   const id = req.params.id * 1;
   User.destroy({

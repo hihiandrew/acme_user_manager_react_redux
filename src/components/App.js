@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import Managers from './Managers';
 import Users from './Users';
+import UserCreateUpdate from './UserCreateUpdate';
 import store from '../store';
 import axios from 'axios';
 
@@ -12,10 +13,12 @@ export default class App extends Component {
     this.state = store.getState();
     this.handleDelete = this.handleDelete.bind(this);
     this.findManager = this.findManager.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentDidMount() {
-    this.unsubscribe = store.subscribe(() => this.setState(store.getState));
+    this.unsubscribe = store.subscribe(() => this.setState(store.getState()));
     axios
       .get('/api/users')
       .then(resp => {
@@ -42,6 +45,17 @@ export default class App extends Component {
       .name;
   }
 
+  handleAdd(user) {
+    axios
+      .post('/users/create', user)
+      .then(resp => {
+        store.dispatch({ type: 'add_user', user: resp.data });
+      })
+      .catch(e => console.log(e));
+  }
+
+  handleUpdate(user) {}
+
   render() {
     return (
       <Router>
@@ -55,7 +69,6 @@ export default class App extends Component {
             }}
           />
           <Route
-            exact
             path={'/users'}
             render={() => {
               return (
@@ -63,6 +76,21 @@ export default class App extends Component {
                   users={this.state.users}
                   handleDelete={this.handleDelete}
                   findManager={this.findManager}
+                />
+              );
+            }}
+          />
+          <Route
+            path={'/users/:id'}
+            render={({ location }) => {
+              const id = location.pathname.split('/').pop();
+              console.log(id);
+              return (
+                <UserCreateUpdate
+                  id={id}
+                  users={this.state.users}
+                  handleAdd={this.handleAdd}
+                  handleUpdate={this.handleUpdate}
                 />
               );
             }}
