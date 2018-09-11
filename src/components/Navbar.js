@@ -13,7 +13,7 @@ export default class Navbar extends Component {
           <Link to={'/managers'}>
             <li>Managers ({managers.length})</li>
           </Link>
-          <Link to={'/users/create'}>
+          <Link to={'/users/create/new'}>
             <li>Users Create</li>
           </Link>
         </ul>

@@ -46,6 +46,8 @@ export default class App extends Component {
   }
 
   handleAdd(user) {
+    console.log(`handleadd`);
+    console.log(user);
     axios
       .post('/users/create', user)
       .then(resp => {
@@ -81,13 +83,14 @@ export default class App extends Component {
             }}
           />
           <Route
-            path={'/users/:id'}
+            path={'/users/create/:id'}
             render={({ location }) => {
               const id = location.pathname.split('/').pop();
-              console.log(id);
+              const user = this.state.users.find(user => user.id == id);
               return (
                 <UserCreateUpdate
                   id={id}
+                  user={user}
                   users={this.state.users}
                   handleAdd={this.handleAdd}
                   handleUpdate={this.handleUpdate}

@@ -4,12 +4,13 @@ import loggerMiddleware from 'redux-logger';
 const initialState = {
   users: [],
   managers: [],
+  selectUser: {},
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'load_users':
-      return handleLoadUser(action);
+      return handleLoadUser(action, state);
     case 'del_user':
       return handleDelUser(action, state);
     case 'add_user':
@@ -19,7 +20,7 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-const handleLoadUser = action => {
+const handleLoadUser = (action, state) => {
   //get list of manager id's
   const managerIds = [];
   action.users.map(function(user) {
@@ -33,7 +34,11 @@ const handleLoadUser = action => {
   );
   //remove duplicates user obj's
   const uniqueManagers = [...new Set(listManagers)];
-  return { users: action.users, managers: uniqueManagers };
+  return {
+    users: action.users,
+    managers: uniqueManagers,
+    selectUser: state.selectUser,
+  };
 };
 
 const handleDelUser = (action, state) => {
@@ -55,11 +60,19 @@ const handleDelUser = (action, state) => {
     let newManagers = state.managers.filter(
       manager => manager.id != action.user.managerId && manager != action.user
     );
-    return { users: newUsers, managers: newManagers };
+    return {
+      users: newUsers,
+      managers: newManagers,
+      selectUser: state.selectUser,
+    };
   } else {
     //else: only remove target from managers list
     let newManagers = state.managers.filter(manager => manager != action.user);
-    return { users: newUsers, managers: newManagers };
+    return {
+      users: newUsers,
+      managers: newManagers,
+      selectUser: state.selectUser,
+    };
   }
 };
 
@@ -71,9 +84,17 @@ const handleAddUser = (action, state) => {
       state.users.find(user => user.id === action.user.managerId)
     );
     newManagers = [...new Set(newManagers)];
-    return { users: newUsers, managers: newMangers };
+    return {
+      users: newUsers,
+      managers: newMangers,
+      selectUser: state.selectUser,
+    };
   }
-  return { users: newUsers, managers: state.managers };
+  return {
+    users: newUsers,
+    managers: state.managers,
+    selectUser: state.selectUser,
+  };
 };
 
 const store = createStore(reducer, applyMiddleware(loggerMiddleware));

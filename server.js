@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 app.use(bodyParser.urlencoded());
+app.use(bodyParser.json());
 
 app.get('/api/users', (req, res, next) => {
   User.findAll().then(users => {
@@ -16,6 +17,7 @@ app.get('/api/users', (req, res, next) => {
 });
 
 app.post('/users/create', (req, res, next) => {
+  console.log(req.body);
   User.create(req.body)
     .then(user => {
       res.send(user);

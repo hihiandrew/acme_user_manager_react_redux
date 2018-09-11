@@ -11,7 +11,7 @@ export default class Users extends Component {
           {users.map(user => {
             return (
               <li key={user.name}>
-                <Link to={`user/create/${user.id}`}>{user.name}</Link>
+                <Link to={`users/create/${user.id}`}>{user.name}</Link>
                 {user.managerId ? ` managed by ${findManager(user)}` : ''}
                 <div onClick={() => handleDelete(user)}>X</div>
               </li>

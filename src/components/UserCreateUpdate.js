@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import store2 from '../store2';
+import store from '../store2';
 
 export default class UserCreateUpdate extends Component {
   constructor(props) {
@@ -17,9 +18,16 @@ export default class UserCreateUpdate extends Component {
     this.unsubscribe();
   }
 
+  componentDidUpdate() {
+    if (this.props.id != 'new' && this.state.prevUser != this.props.user) {
+      store2.dispatch({ type: 'set_prev', prevUser: this.props.user });
+    }
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    if (this.props.id === 'create') {
+    if (this.props.id === 'new') {
+      console.log(this.state.input);
       return this.props.handleAdd({ name: this.state.input });
     }
     return this.props.handleUpdate({ name: this.state.input });
@@ -31,7 +39,7 @@ export default class UserCreateUpdate extends Component {
 
   render() {
     console.log(this.props);
-    const { user, id } = this.props;
+    const { id } = this.props;
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
