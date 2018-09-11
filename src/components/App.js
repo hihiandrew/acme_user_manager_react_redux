@@ -46,8 +46,6 @@ export default class App extends Component {
   }
 
   handleAdd(user) {
-    console.log(`handleadd`);
-    console.log(user);
     axios
       .post('/users/create', user)
       .then(resp => {
@@ -56,7 +54,17 @@ export default class App extends Component {
       .catch(e => console.log(e));
   }
 
-  handleUpdate(user) {}
+  handleUpdate(user, id) {
+    console.log(user);
+    console.log(id);
+    axios
+      .put(`/users/create/${id}`, user)
+      .then(resp => {
+        console.log(resp.data);
+        store.dispatch({ type: 'update_user', user: resp.data });
+      })
+      .catch(e => console.log(e));
+  }
 
   render() {
     return (

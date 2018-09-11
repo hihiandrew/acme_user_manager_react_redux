@@ -4,7 +4,6 @@ import loggerMiddleware from 'redux-logger';
 const initialState = {
   users: [],
   managers: [],
-  selectUser: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,9 +14,28 @@ const reducer = (state = initialState, action) => {
       return handleDelUser(action, state);
     case 'add_user':
       return handleAddUser(action, state);
+    case 'update_user':
+      return handleUpdateUser(action, state);
     default:
       return state;
   }
+};
+
+const handleUpdateUser = (action, state) => {
+  const newUsers = state.users.map(user => {
+    if (user.id === action.user.id) {
+      return action.user;
+    }
+    return user;
+  });
+  const newManagers = state.managers.map(manager => {
+    if (manager.id === action.user.id) {
+      return action.user;
+    }
+    return manager;
+  });
+
+  return { users: newUsers, managers: newManagers };
 };
 
 const handleLoadUser = (action, state) => {
@@ -37,7 +55,6 @@ const handleLoadUser = (action, state) => {
   return {
     users: action.users,
     managers: uniqueManagers,
-    selectUser: state.selectUser,
   };
 };
 
@@ -63,7 +80,6 @@ const handleDelUser = (action, state) => {
     return {
       users: newUsers,
       managers: newManagers,
-      selectUser: state.selectUser,
     };
   } else {
     //else: only remove target from managers list
@@ -71,7 +87,6 @@ const handleDelUser = (action, state) => {
     return {
       users: newUsers,
       managers: newManagers,
-      selectUser: state.selectUser,
     };
   }
 };
@@ -87,13 +102,11 @@ const handleAddUser = (action, state) => {
     return {
       users: newUsers,
       managers: newMangers,
-      selectUser: state.selectUser,
     };
   }
   return {
     users: newUsers,
     managers: state.managers,
-    selectUser: state.selectUser,
   };
 };
 

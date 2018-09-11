@@ -17,11 +17,17 @@ app.get('/api/users', (req, res, next) => {
 });
 
 app.post('/users/create', (req, res, next) => {
-  console.log(req.body);
   User.create(req.body)
     .then(user => {
       res.send(user);
     })
+    .catch(next);
+});
+
+app.put('/users/create/:id', (req, res, next) => {
+  User.findById(req.params.id)
+    .then(user => user.update(req.body))
+    .then(user => res.json(user))
     .catch(next);
 });
 

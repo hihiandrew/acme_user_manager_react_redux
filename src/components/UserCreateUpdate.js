@@ -12,6 +12,9 @@ export default class UserCreateUpdate extends Component {
 
   componentDidMount() {
     this.unsubscribe = store2.subscribe(() => this.setState(store2.getState()));
+    if (this.props.id != 'new') {
+      store.dispatch({ type: 'set_prev', prevUser: this.props.user });
+    }
   }
 
   componentWillUnmount() {
@@ -22,15 +25,15 @@ export default class UserCreateUpdate extends Component {
     if (this.props.id != 'new' && this.state.prevUser != this.props.user) {
       store2.dispatch({ type: 'set_prev', prevUser: this.props.user });
     }
+    //need to fix bug: update->create prepopulate remains
   }
 
   handleSubmit(event) {
     event.preventDefault();
     if (this.props.id === 'new') {
-      console.log(this.state.input);
       return this.props.handleAdd({ name: this.state.input });
     }
-    return this.props.handleUpdate({ name: this.state.input });
+    return this.props.handleUpdate({ name: this.state.input }, this.props.id);
   }
 
   handleChange(event) {
