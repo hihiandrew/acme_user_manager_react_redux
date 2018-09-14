@@ -17,7 +17,12 @@ app.get('/api/users', (req, res, next) => {
 });
 
 app.post('/users/create', (req, res, next) => {
-  User.create(req.body)
+  const user = User.build({ name: req.body.name });
+  if (req.body.managerId) {
+    user.managerId = req.body.managerId * 1;
+  }
+  user
+    .save()
     .then(user => {
       res.send(user);
     })

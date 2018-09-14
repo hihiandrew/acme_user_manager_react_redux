@@ -3,14 +3,25 @@ import loggerMiddleware from 'redux-logger';
 
 const initialState = {
   input: '',
-  prevUser: {},
+  managerId: 0,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'input_change':
-      return { input: action.input, prevUser: state.prevUser };
+      return {
+        input: action.input,
+        managerId: state.managerId,
+      };
     case 'set_prev':
-      return { input: action.prevUser.name, prevUser: action.prevUser };
+      return {
+        input: action.prevUser.name,
+        managerId: state.managerId,
+      };
+    case 'set_manager':
+      return {
+        input: state.input,
+        managerId: action.managerId,
+      };
     default:
       return state;
   }

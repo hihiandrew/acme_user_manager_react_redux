@@ -41,6 +41,7 @@ export default class App extends Component {
   }
 
   findManager(user) {
+    console.log(this.state.managers);
     return this.state.managers.find(manager => manager.id === user.managerId)
       .name;
   }
@@ -55,8 +56,6 @@ export default class App extends Component {
   }
 
   handleUpdate(user, id) {
-    console.log(user);
-    console.log(id);
     axios
       .put(`/users/create/${id}`, user)
       .then(resp => {
