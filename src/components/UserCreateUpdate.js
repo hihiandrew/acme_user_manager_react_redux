@@ -28,11 +28,16 @@ export default class UserCreateUpdate extends Component {
 
   setFormValues() {
     if (this.props.id == 'new') {
-      return store2.dispatch({ type: 'input_change', input: '' });
+      return store2.dispatch({
+        type: 'input_change',
+        input: '',
+        managerId: 0,
+      });
     }
     return store2.dispatch({
       type: 'input_change',
       input: this.props.user.name,
+      managerId: this.props.user.managerId || 0,
     });
   }
 

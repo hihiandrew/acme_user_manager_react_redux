@@ -41,7 +41,6 @@ export default class App extends Component {
   }
 
   findManager(user) {
-    console.log(this.state.managers);
     return this.state.managers.find(manager => manager.id === user.managerId)
       .name;
   }

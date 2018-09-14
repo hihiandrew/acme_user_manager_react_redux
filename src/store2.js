@@ -10,7 +10,7 @@ const reducer = (state = initialState, action) => {
     case 'input_change':
       return {
         input: action.input,
-        managerId: state.managerId,
+        managerId: action.managerId,
       };
     case 'set_prev':
       return {
